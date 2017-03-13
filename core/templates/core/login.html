@@ -1,0 +1,68 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <link href="../../static/core/login.css" rel="stylesheet">
+
+   <!-- Fixed navbar -->
+   <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="row"> 
+        <div class="col-xs-12 col-md-12 ">
+          <div class="center-block" style="width:100px;">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Photoblog</a>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+   </nav>
+
+   <!-- content -->
+
+   <div class="container">
+      <!-- Main component for a primary marketing message or call to action -->
+      <!-- <div class="jumbotron"> -->
+      <h2 class="text-center">Welcome to Photoblog</h2>
+{#      <p class="text-center">Тут классно. Правда.  <span style="color: blue;">#синийкит</span></p>#}
+      <p class="text-center">На сайте {{ blogs_count }} блогов, {{ posts_count }} постов и {{ user_count }} пользователей</p>
+      <div id="particles"></div>
+
+      <div class="row">
+          <div id="loginbox" class="mainbox col-md-6  col-sm-6 col-sm-offset-3">
+              <div class="panel panel-default" >
+                  <div class="panel-heading">
+                    <div class="panel-title text-center">Sign in</div>
+                  </div>
+
+                  <div class="panel-body" >
+
+                      <form  action="" name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                              <input id="user" type="text" class="form-control" name="user" value="" placeholder="User">
+                          </div>
+
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                              <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+                          </div>
+                          <div class="form-group">
+                              <!-- Buttons -->
+                              <div class="btn-toolbar col-sm-12 " role="toolbar" aria-label="...">
+                                  <div class=" btn-group controls" role="group">
+                                      <button onclick="location.href='{% url "blogpost:blogs" %}';" type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-log-in"></i> Log in</button>
+                                  </div>
+                                  <div class=" controls" >
+                                      <button onclick="location.href='{% url "blogpost:blogs" %}';" type="button" class="btn btn-primary pull-right"> Register</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>  
+      </div>
+   </div> <!-- /container -->
+
+{% endblock %}
