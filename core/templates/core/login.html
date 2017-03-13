@@ -1,7 +1,9 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-    <link href="../../static/core/login.css" rel="stylesheet">
+
+    {% load static %}
+    <link href="{% static 'core/login.css' %}" rel="stylesheet">
 
    <!-- Fixed navbar -->
    <nav class="navbar navbar-default navbar-fixed-top">

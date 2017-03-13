@@ -6,7 +6,7 @@ import os
 
 
 def get_image_path(instance, filename):
-    return os.path.join('posts', str(instance.id), 'img' + os.path.splitext(filename)[1])
+    return os.path.join('posts', str(instance.id), 'img {}'.format(os.path.splitext(filename)[1]))
 
 
 class Blog(models.Model):

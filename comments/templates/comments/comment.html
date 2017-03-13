@@ -6,7 +6,7 @@
         <div class="header">
             <strong class="primary-font">{{ comment.author.first_name  }} {{ comment.author.last_name  }}</strong>
             <small class="pull-right text-muted">
-                <span class="glyphicon glyphicon-time"></span>{{ comment.created_at.hour }}:{{ comment.created_at.minute }}
+                <span class="glyphicon glyphicon-time"></span>{{ comment.created_at|time:'H:i' }}
             </small>
         </div>
         <p>

@@ -11,7 +11,12 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return self.created_at.ctime() + ' ' + self.author.first_name + ' ' + self.author.last_name + ': ' + self.text[:20]
+        result = '{0} {1} {2}: {3}'.format(
+            self.created_at.ctime(),
+            self.author.first_name,
+            self.author.last_name,
+            self.text[:30])
+        return result
 
     class Meta:
         ordering = ['created_at']
