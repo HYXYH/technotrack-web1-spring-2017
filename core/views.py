@@ -1,16 +1,29 @@
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
-from blogpost.models import Blog, Post
+from django.urls import reverse
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
+from django.template.context_processors import csrf
+from django.contrib.auth.forms import UserCreationForm
 from core.models import User
 # Create your views here.
 
 
-class LoginView(TemplateView):
-    template_name = "core/login.html"
+class MyUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2')
 
-    def get_context_data(self, **kwargs):
-        context = super(LoginView, self).get_context_data(**kwargs)
-        context['blogs_count'] = Blog.objects.all().count()
-        context['posts_count'] = Post.objects.all().count()
-        context['user_count'] = User.objects.all().count()
-        return context
+
+def register(request):
+    if request.method == 'POST':
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('core:registration_complete'))
+
+    else:
+        form = MyUserCreationForm()
+    token = {}
+    token.update(csrf(request))
+    token['form'] = form
+    return render_to_response('core/registration.html', token)

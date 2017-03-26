@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+
+    <div class="container">
+
+      <h2 class="text-center">Registration</h2>
+
+        <!-- background particles (heavy) -->
+{#      <div id="particles"></div>#}
+
+      <div class="row">
+          <div id="loginbox" class="mainbox col-md-6  col-sm-6 col-sm-offset-3">
+              <div class="panel panel-default" >
+                  <div class="panel-heading">
+                    <div class="panel-title text-center">Sign in</div>
+                  </div>
+                  <div class="panel-body" >
+
+                      <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                          {% csrf_token %}
+                          {{ form.as_p }}
+                          <div class="form-group">
+                              <!-- Buttons -->
+                              <div class="btn-toolbar col-sm-12 " role="toolbar" aria-label="...">
+                                  <div class=" btn-group controls" role="group">
+                                      <button type="submit" class="btn btn-success pull-right">Register</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+   </div> <!-- /container -->
+
+{% endblock %}

@@ -21,6 +21,25 @@
     </head>
 
     <body>
+
+        <link href="{% static 'core/login.css' %}" rel="stylesheet">
+
+       <!-- Fixed navbar -->
+       <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 col-md-12 ">
+              <div class="center-block" style="width:100px;">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="#">Photoblog</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       </nav>
+
+
         {% block content %} {% endblock %}
         <!-- Bootstrap core JavaScript
         ================================================== -->

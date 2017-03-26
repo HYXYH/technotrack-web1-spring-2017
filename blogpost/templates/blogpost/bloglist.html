@@ -1,36 +1,48 @@
 <!-- BlogPost -->
-        <div class="row blogpost-block">
-            <div class="col-md-1">
-            </div>
-            <div class="col-xs-12 col-md-10">
-                <div class="panel panel-default blogpost"
-                     style="background: -webkit-linear-gradient(top, rgba(255,255, 255, 0) 0%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.9) 0%), url('{{ blog.image.url }}') no-repeat; background-size: 100% 100%;">
-                    <div class="panel-body blogpost-footer">
-                        <div class="col-xs-6 col-md-6">
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object dp img-circle"
-                                         src="{{ blog.author.avatar.url }}"
-                                         style="width: 100px;height:100px;">
-                                </a>
-                                <div class="media-body">
-                                    <h4 class="media-heading">{{ blog.author.first_name  }} {{ blog.author.last_name  }}
-                                        <small> {% if blog.author.is_active %}Online{% else %}Offline{% endif %}</small>
-                                    </h4>
-                                    <h5>Some Author info and url: <a href="{{ blog.author.site }}">{{ blog.author.site }}</a></h5>
-                                    <hr style="margin:8px auto">
+<div class="row blogpost-block">
+    <div class="col-md-1">
+    </div>
+    <div class="col-xs-12 col-md-10">
+        <div class="panel panel-default blogpost"
+                {% if blog.image %}
+                    {% include "blogpost/blogpost_background_style" with img_url=blog.image.url %}>
+                {% else %}
+                    {% include "blogpost/blogpost_background_style" with img_url=default_post_image %}>
+                {% endif %}
+        <div class="panel-body blogpost-footer">
+            <div class="col-xs-6 col-md-6">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object dp img-circle"
+                                {% if blog.author.avatar %}
+                             src="{{ blog.author.avatar.url }}"
+                                {% else %}
+                             src="{{ default_avatar }}"
+                                {% endif %}
+                             style="width: 100px;height:100px;">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ blog.author.first_name }} {{ blog.author.last_name }}
+{#                         <small> {% if blog.author.is_active %}Online{% else %}Offline{% endif %}</small>#}
+                        </h4>
+                        <h5>Some Author info and url: <br> <a href="{{ blog.author.site }}">{{ blog.author.site }}</a></h5>
+                        <hr style="margin:8px auto">
 
-                                    <span class="label label-default">tAg</span>
-                                    <span class="label label-default">TaG</span>
-                                    <span class="label label-info">taG</span>
-                                    <span class="label label-default">Tag</span>
-                                </div>
-                            </div>
-                        </div>
-                        <h4 style="color: black;"><a href="id{{ blog.id }}">{{ blog.description_title }}</a></h4>
-                        <p style="color: black;">{{ blog.text }}</p>
+                        {% for cat in blog.categories.all %}
+                            <span class="label {{ cat.color }}">{{ cat.name }}</span>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
+            <h4 style="color: black;"><a href="id{{ blog.id }}">{{ blog.description_title }}</a></h4>
+            <p style="color: black;">{{ blog.text|truncatechars:75 }}</p>
+            <!-- Edit blog -->
+                <button type="button" onclick="location.href='{% url 'blogpost:editblog' pk=blog.id %}';" class="btn btn-success pull-right" style="vertical-align: bottom; position: absolute"><i
+                        class="glyphicon glyphicon-pencil"></i> Edit blog
+                </button>
+
         </div>
-        <!-- BlogPost end -->
+        </div>
+    </div>
+</div>
+<!-- BlogPost end -->
