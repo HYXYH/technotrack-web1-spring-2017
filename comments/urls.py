@@ -13,9 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 from .views import add_comment
 
 urlpatterns = [
-    url(r'^newcomment/$', add_comment, name="newcomment"),
+    url(r'^newcomment/$', login_required(add_comment), name="newcomment"),
 ]

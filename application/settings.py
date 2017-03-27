@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'comments.apps.CommentsConfig',
     'blogpost.apps.BlogpostConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

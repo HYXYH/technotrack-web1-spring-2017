@@ -4,6 +4,7 @@
 {% block feedcontent %}
     <!-- content -->
 
+    {% if user.is_authenticated %}
     <!-- new blog -->
     <div class="row">
         <div class="col-md-2" style="position: fixed; margin-top: 10px; padding-right: 65px; padding-left: 20px">
@@ -14,6 +15,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <div class="container">
 

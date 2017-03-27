@@ -16,5 +16,3 @@ class User(AbstractUser):
 
     avatar = models.ImageField(upload_to=get_avatar_path, null=True, blank=True)
     site = models.CharField(max_length=50, blank=True)
-    liked = models.ManyToManyField('blogpost.Post', related_name='likers')
-    disliked = models.ManyToManyField('blogpost.Post', related_name='dislikers')

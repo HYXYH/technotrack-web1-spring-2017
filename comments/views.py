@@ -30,3 +30,5 @@ def add_comment(request):
             comment = Comment(author=request.user, text=form.cleaned_data['text'], post=form.cleaned_data['post'])
             comment.save()
             return redirect('{}#comments{}'.format(request.META.get('HTTP_REFERER'), comment.post.id))
+    return redirect(request.META.get('HTTP_REFERER'))
+

@@ -3,22 +3,27 @@
 {% block feedcontent %}
     <!-- content -->
 
-    <!-- new blog/post -->
-    <div class="row">
-        <div class="col-md-2" style="position: fixed; margin-top: 10px; padding-right: 65px; padding-left: 20px">
-            <div class="center-block">
-                <button onclick="location.href='{% url 'blogpost:addpost' %}';" type="submit" class="btn btn-success pull-right"><i
-                        class="glyphicon glyphicon-plus"></i> New post
-                </button>
+    {% if user.is_authenticated %}
+        <!-- new blog/post -->
+        <div class="row">
+            <div class="col-md-2" style="position: fixed; margin-top: 10px; padding-right: 65px; padding-left: 20px">
+                <div class="center-block">
+                    <button onclick="location.href='{% url 'blogpost:addpost' %}';" type="submit"
+                            class="btn btn-success pull-right"><i
+                            class="glyphicon glyphicon-plus"></i> New post
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
     <div class="container">
         <!-- posts here -->
 
         {% for object in object_list %}
             {% include "blogpost/postlist.html" with post=object %}
+        {% empty %}
+            <h1 align="center">Sorry, no posts</h1>
         {% endfor %}
 
     </div> <!-- /container -->

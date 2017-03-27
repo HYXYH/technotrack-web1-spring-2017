@@ -15,16 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url
 from .views import BlogList, PostList, PostView, AddBlogView, AddPostView, UpdateBlogView, UpdatePostView
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 urlpatterns = [
+    url(r'^$', BlogList.as_view(), name="mainpage"),
     url(r'^blogs/$', BlogList.as_view(), name="blogs"),
     url(r'^blogs/id(?P<blog_id>\d+)$', PostList.as_view(), name="blogid"),
     url(r'^posts/id(?P<pk>\d+)$', PostView.as_view(), name="postid"),
-    url(r'^blogs/create/$', AddBlogView.as_view(), name="addblog"),
-    url(r'^posts/create/$', AddPostView.as_view(), name="addpost"),
-    url(r'^blogs/id(?P<pk>\d+)/edit/$', UpdateBlogView.as_view(), name="editblog"),
-    url(r'^posts/id(?P<pk>\d+)/edit/$', UpdatePostView.as_view(), name="editpost"),
+    url(r'^blogs/create/$', login_required(AddBlogView.as_view()), name="addblog"),
+    url(r'^posts/create/$', login_required(AddPostView.as_view()), name="addpost"),
+    url(r'^blogs/id(?P<pk>\d+)/edit/$', login_required(UpdateBlogView.as_view()), name="editblog"),
+    url(r'^posts/id(?P<pk>\d+)/edit/$', login_required(UpdatePostView.as_view()), name="editpost"),
 ]
 
 

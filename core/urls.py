@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from core.views import register
-from django.contrib.auth.views import login, logout
+from django.contrib.auth.views import logout
+from .views import custom_login
 
 
 urlpatterns = [
-    url(r'^$', login, {'template_name': 'core/login.html'}, name="login"),
+    url(r'^login/$', custom_login, {'template_name': 'core/login.html'}, name="login"),
     url(r'^logout/$', logout, name="logout"),
     url(r'^register/$', register, name='register'),
-    url(r'^registered/$', login, {'template_name': 'core/login.html', 'extra_context': {'registered': True}}, name='registration_complete')
+    url(r'^registered/$', custom_login, {'template_name': 'core/login.html', 'extra_context': {'registered': True}}, name='registration_complete')
 
 ]

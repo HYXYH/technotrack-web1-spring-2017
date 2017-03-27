@@ -34,12 +34,14 @@
                     </div>
                 </div>
             </div>
-            <h4 style="color: black;"><a href="id{{ blog.id }}">{{ blog.description_title }}</a></h4>
+            <h4 style="color: black;"><a href="{% url 'blogpost:blogid' blog_id=blog.id %}">{{ blog.title }}</a></h4>
             <p style="color: black;">{{ blog.text|truncatechars:75 }}</p>
             <!-- Edit blog -->
+            {% if blog.author == user %}
                 <button type="button" onclick="location.href='{% url 'blogpost:editblog' pk=blog.id %}';" class="btn btn-success pull-right" style="vertical-align: bottom; position: absolute"><i
                         class="glyphicon glyphicon-pencil"></i> Edit blog
                 </button>
+            {% endif %}
 
         </div>
         </div>
