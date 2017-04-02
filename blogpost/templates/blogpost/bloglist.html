@@ -1,4 +1,5 @@
 <!-- BlogPost -->
+{% load static %}
 <div class="row blogpost-block">
     <div class="col-md-1">
     </div>
@@ -6,8 +7,11 @@
         <div class="panel panel-default blogpost"
                 {% if blog.image %}
                     {% include "blogpost/blogpost_background_style" with img_url=blog.image.url %}>
+{#                    data-image="{{ blog.image.url }}">   это не работает, url(attr(..)) - не поддерживается #}
                 {% else %}
+                    {% static 'default_images/no_post_image.jpg' as  default_post_image %}
                     {% include "blogpost/blogpost_background_style" with img_url=default_post_image %}>
+{#                    data-image="{% static 'blogpost/default_images/no_post_image.jpg' %}">#}
                 {% endif %}
         <div class="panel-body blogpost-footer">
             <div class="col-xs-6 col-md-6">
@@ -17,6 +21,7 @@
                                 {% if blog.author.avatar %}
                              src="{{ blog.author.avatar.url }}"
                                 {% else %}
+                             {% static 'default_images/no_avatar.png' as  default_avatar %}
                              src="{{ default_avatar }}"
                                 {% endif %}
                              style="width: 100px;height:100px;">

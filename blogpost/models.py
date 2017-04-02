@@ -41,7 +41,6 @@ class Blog(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-#   tags
 
 
 class Post(models.Model):
@@ -65,3 +64,4 @@ class Like(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='liked')
     post = models.ForeignKey(Post, related_name='likers')
     created_at = models.DateTimeField(auto_now_add=True)
+    # int: +-1

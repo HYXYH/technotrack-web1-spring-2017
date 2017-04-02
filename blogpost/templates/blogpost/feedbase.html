@@ -10,12 +10,21 @@
     <link href="{% static 'blogpost/author.css' %}" rel="stylesheet">
     <link href="{% static 'chat/chat.css' %}" rel="stylesheet">
 
+    <style>
+    @media screen and (max-width: 960px) {
+        .mobilehide {
+            display: none;
+        }
+    }
+    </style>
+
+
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="row">
 
-                <div class="col-xs-2 col-md-2">
+                <div class=" mobilehide  col-md-2">
                     <ul class="nav navbar-nav ">
                         <li class="dropdown ">
                             <!-- user block -->
@@ -49,7 +58,7 @@
                     </ul>
                 </div>
 
-                <div class="col-xs-9 col-md-8 navbar-btn finders">
+                <div class="col-xs-12 col-md-8 navbar-btn finders">
                     <div class="center-block" style="width:300px;">
                         <div class="btn-toolbar center-block" role="toolbar">
 

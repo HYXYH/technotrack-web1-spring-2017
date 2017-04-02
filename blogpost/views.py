@@ -97,6 +97,10 @@ class SortForm(forms.Form):
     search = forms.CharField(required=False)
 
 
+# edit post/blog only if author
+# default images -> to static
+# comments: show errors
+
 class BlogList(ListView):
     queryset = Blog.objects.all()
     template_name = "blogpost/blogs.html"
@@ -109,8 +113,6 @@ class BlogList(ListView):
     def get_context_data(self, **kwargs):
         context = super(BlogList, self).get_context_data(**kwargs)
         context['sort_form'] = self.sort_form
-        context['default_post_image'] = "{}{}".format(settings.MEDIA_URL, 'default_images/no_post_image.jpg')
-        context['default_avatar'] = "{}{}".format(settings.MEDIA_URL, 'default_images/no_avatar.png')
         return context
 
     def get_queryset(self):
@@ -136,9 +138,8 @@ class PostList(ListView):
     def get_context_data(self, **kwargs):
         context = super(PostList, self).get_context_data(**kwargs)
         context['blog'] = self.blog
+        context['sort_form'] = SortForm() # just for good look
         context['comment_form'] = CommentForm()
-        context['default_post_image'] = "{}{}".format(settings.MEDIA_URL, 'default_images/no_post_image.jpg')
-        context['default_avatar'] = "{}{}".format(settings.MEDIA_URL, 'default_images/no_avatar.png')
         return context
 
 
@@ -153,7 +154,5 @@ class PostView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data(**kwargs)
         context['comment_form'] = CommentForm()
-        context['default_post_image'] = "{}{}".format(settings.MEDIA_URL, 'default_images/no_post_image.jpg')
-        context['default_avatar'] = "{}{}".format(settings.MEDIA_URL, 'default_images/no_avatar.png')
         return context
     # в object будет лежать Post.get(id=context['pk'])
