@@ -1,40 +1,72 @@
 {% extends "core/base.html" %}
+
+
+{% block extra_js %}
+    <script src="{% static 'core/particles.js' %}"></script>
+{% endblock %}
+
+
 {% block title %}Register{% endblock %}
+
+
 {% block content %}
 
-
+    {% load widget_tweaks %}
     <div class="container">
 
-      <h2 class="text-center">Registration</h2>
-
         <!-- background particles (heavy) -->
-{#      <div id="particles"></div>#}
+        {#      <div id="particles"></div>#}
 
-      <div class="row">
-          <div id="loginbox" class="mainbox col-md-6  col-sm-6 col-sm-offset-3">
-              <div class="panel panel-default" >
-                  <div class="panel-heading">
-                    <div class="panel-title text-center">Sign in</div>
-                  </div>
-                  <div class="panel-body" >
+        <div class="row">
+            <div id="loginbox" class="mainbox col-md-6  col-sm-6 col-sm-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title text-center">Registration</div>
+                    </div>
+                    <div class="panel-body">
 
-                      <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
-                          {% csrf_token %}
-                          {{ form.as_p }}
-                          <div class="form-group">
-                              <!-- Buttons -->
-                              <div class="btn-toolbar col-sm-12 " role="toolbar" aria-label="...">
-                                  <div class=" btn-group controls" role="group">
-                                      <button type="submit" class="btn btn-success pull-right">Register</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </form>
+                        <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
 
-                  </div>
-              </div>
-          </div>
-      </div>
-   </div> <!-- /container -->
+                            <div class="{% if form.username.errors %}has-error{% endif %}">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    {% render_field form.username|append_attr:"placeholder:Username" class+="form-control" %}
+                                </div>
+                                <span class="help-block">{{ form.username.errors }}</span>
+                            </div>
+
+                            <div class="{% if form.password1.errors %}has-error{% endif %}">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    {% render_field form.password1|append_attr:"placeholder:Password" class+="form-control" %}
+                                </div>
+                                <span class="help-block">{{ form.password1.errors }}</span>
+                            </div>
+
+                            <div class="{% if form.password2.errors %}has-error{% endif %}">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    {% render_field form.password2|append_attr:"placeholder:Password confirmation" class+="form-control" %}
+                                </div>
+                                <span class="help-block">{{ form.password2.errors }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Buttons -->
+                                <div class="btn-toolbar col-sm-12 " role="toolbar" aria-label="...">
+                                    <div class=" btn-group controls" role="group">
+                                        <button type="submit" class="btn btn-success pull-right">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
 
 {% endblock %}

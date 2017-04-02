@@ -6,31 +6,32 @@
     <div class="col-xs-12 col-md-10">
         <div class="panel panel-default blogpost"
                 {% if blog.image %}
-                    {% include "blogpost/blogpost_background_style" with img_url=blog.image.url %}>
-{#                    data-image="{{ blog.image.url }}">   это не работает, url(attr(..)) - не поддерживается #}
+                    style="background: url('{{ blog.image.url }}') no-repeat; background-size: 100% 100%;">
+{#                  data-image="{{ blog.image.url }}">   это не работает, url(attr(..)) - не поддерживается#}
                 {% else %}
                     {% static 'default_images/no_post_image.jpg' as  default_post_image %}
-                    {% include "blogpost/blogpost_background_style" with img_url=default_post_image %}>
-{#                    data-image="{% static 'blogpost/default_images/no_post_image.jpg' %}">#}
+                     style="background: url('{{ default_post_image }}') no-repeat; background-size: 100% 100%;">
+{#                   data-image="{% static 'blogpost/default_images/no_post_image.jpg' %}">#}
                 {% endif %}
         <div class="panel-body blogpost-footer">
             <div class="col-xs-6 col-md-6">
                 <div class="media">
                     <a class="pull-left" href="#">
-                        <img class="media-object dp img-circle"
+                        <img class="media-object dp img-circle ava-big"
                                 {% if blog.author.avatar %}
                              src="{{ blog.author.avatar.url }}"
                                 {% else %}
-                             {% static 'default_images/no_avatar.png' as  default_avatar %}
+                                    {% static 'default_images/no_avatar.png' as  default_avatar %}
                              src="{{ default_avatar }}"
                                 {% endif %}
-                             style="width: 100px;height:100px;">
+                        >
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading">{{ blog.author.first_name }} {{ blog.author.last_name }}
-{#                         <small> {% if blog.author.is_active %}Online{% else %}Offline{% endif %}</small>#}
+                            {#                         <small> {% if blog.author.is_active %}Online{% else %}Offline{% endif %}</small>#}
                         </h4>
-                        <h5>Some Author info and url: <br> <a href="{{ blog.author.site }}">{{ blog.author.site }}</a></h5>
+                        <h5>Some Author info and url: <br> <a href="{{ blog.author.site }}">{{ blog.author.site }}</a>
+                        </h5>
                         <hr style="margin:8px auto">
 
                         {% for cat in blog.categories.all %}
@@ -39,11 +40,17 @@
                     </div>
                 </div>
             </div>
-            <h4 style="color: black;"><a href="{% url 'blogpost:blogid' blog_id=blog.id %}">{{ blog.title }}</a></h4>
-            <p style="color: black;">{{ blog.text|truncatechars:75 }}</p>
+            <article style="float: left">
+                <h4><a href="{% url 'blogpost:blogid' blog_id=blog.id %}">{{ blog.title }}</a>
+                </h4>
+                <p>{{ blog.text|truncatechars:75 }}</p>
+            </article>
+
+
             <!-- Edit blog -->
             {% if blog.author == user %}
-                <button type="button" onclick="location.href='{% url 'blogpost:editblog' pk=blog.id %}';" class="btn btn-success pull-right" style="vertical-align: bottom; position: absolute"><i
+                <button type="button" onclick="location.href='{% url 'blogpost:editblog' pk=blog.id %}';"
+                        class="btn btn-success pull-right" style="vertical-align: bottom; position: absolute"><i
                         class="glyphicon glyphicon-pencil"></i> Edit blog
                 </button>
             {% endif %}

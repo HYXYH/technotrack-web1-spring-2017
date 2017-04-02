@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,23 +10,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        {% load static %}
 
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="{% static 'icons/ico4.png' %}">
 
         <title>Photoblog</title>
+        <link rel="icon" href="{% static 'icons/ico4.png' %}">
 
         <!-- Bootstrap core CSS -->
         <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap/nonresponsive.css' %}" rel="stylesheet">
         <link href="{% static 'bootstrap/bootstrap-select/dist/css/bootstrap-select.css' %}" rel="stylesheet">
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="{% static 'jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+        <script src="{% static 'bootstrap/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
+
+        {% block extra_css %} {% endblock %}
+        {% block extra_js %} {% endblock %}
+
     </head>
 
     <body>
 
-        <link href="{% static 'core/login.css' %}" rel="stylesheet">
-
+        {% block content %}
        <!-- Fixed navbar -->
        <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -38,15 +47,7 @@
           </div>
         </div>
        </nav>
+        {% endblock %}
 
-
-        {% block content %} {% endblock %}
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="{% static 'jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-        <script src="{% static 'bootstrap/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
-        <script src="{% static 'core/particles.js' %}"></script>
     </body>
 </html>

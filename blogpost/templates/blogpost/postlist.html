@@ -1,4 +1,5 @@
 <!-- Post -->
+{% load static %}
 <div class="row post-block">
     <div class="col-md-1">
         <!-- just for formatting -->
@@ -21,6 +22,7 @@
                 {% if post.image  %}
                 <img src="{{ post.image.url }}" class="panel-image-preview"/>
                 {% else %}
+                    {% static 'default_images/no_post_image.jpg' as  default_post_image %}
                  <img src="{{ default_post_image }}" class="panel-image-preview"/>
                 {% endif %}
             </div>

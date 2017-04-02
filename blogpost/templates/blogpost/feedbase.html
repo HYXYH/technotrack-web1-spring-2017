@@ -1,155 +1,77 @@
 {% extends "core/base.html" %}
 
-{% block content %}
 
-    {% load widget_tweaks %}
+{% load widget_tweaks %}
+{% load static %}
 
-    {% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'blogpost/feedbase.css' %}" rel="stylesheet">
     <link href="{% static 'blogpost/post.css' %}" rel="stylesheet">
     <link href="{% static 'blogpost/blogpost.css' %}" rel="stylesheet">
     <link href="{% static 'blogpost/author.css' %}" rel="stylesheet">
     <link href="{% static 'chat/chat.css' %}" rel="stylesheet">
-
-    <style>
-    @media screen and (max-width: 960px) {
-        .mobilehide {
-            display: none;
-        }
-    }
-    </style>
+{% endblock %}
 
 
+
+{% block content %}
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
-            <div class="row">
-
-                <div class=" mobilehide  col-md-2">
-                    <ul class="nav navbar-nav ">
-                        <li class="dropdown ">
-                            <!-- user block -->
-                            {% if user.is_anonymous %}
-                                <a class="pull-left" style="float: left"
-                                   href="{% url 'blogpost:mainpage' %}"> Photoblog</a>
-                                <a href="{% url 'core:login' %}" style="float:left">Log in</a>
-                            {% else %}
-                                <a class="pull-left" style="padding-top:5px; padding-bottom: 5px">
-                                    <img class="img-circle"
-                                            {% if user.avatar %}
-                                         src="{{ user.avatar.url }}"
-                                            {% else %}
-                                         src="{{ default_avatar }}"
-                                            {% endif %}
-                                         style="width: 40px;height:40px;">
-                                </a>
-                                <a id="brand" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false" style="float: left">{{ user.username }}
-                                    <span
-                                            class="caret"></span></a>
-                            {% endif %}
-                            <!-- /user block -->
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url "blogpost:blogs" %}">Blogs</a></li>
-                                <li><a href="#">Profile</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="{% url 'core:logout' %}">Log out</a></li>
-                            </ul>
-                        </li>
+            <ul class="nav navbar-nav ">
+                <li class="dropdown">
+                    <!-- user block -->
+                    {% if user.is_anonymous %}
+                        <a class="pull-left"
+                           href="{% url 'blogpost:mainpage' %}"> Photoblog</a>
+                        <a href="{% url 'core:login' %}" style="float:left">Log in</a>
+                    {% else %}
+                        <div id="brand" class="dropdown-toggle menu" data-toggle="dropdown" role="button"
+                             aria-haspopup="true" aria-expanded="false">
+                            <img class="img-circle ava-small"
+                                    {% if user.avatar %}
+                                 src="{{ user.avatar.url }}"
+                                    {% else %}
+                                 src="{{ default_avatar }}"
+                                    {% endif %}
+                            >
+                            <span class="mobilehide">{{ user.username }}</span>
+                            <span class="mobilehide caret"></span>
+                        </div>
+                    {% endif %}
+                    <!-- /user block -->
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url "blogpost:blogs" %}">Blogs</a></li>
+                        <li><a href="{% url "blogpost:addblog" %}">New blog</a></li>
+                        <li><a href="{% url "blogpost:addpost" %}">New post</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="{% url 'core:logout' %}">Log out</a></li>
                     </ul>
-                </div>
+                </li>
 
-                <div class="col-xs-12 col-md-8 navbar-btn finders">
-                    <div class="center-block" style="width:300px;">
-                        <div class="btn-toolbar center-block" role="toolbar">
-
-                            <!-- Find and sort form -->
-                            <form method="get">
-
-                                <!-- Filter by category -->
-                                {#                            <div class="btn-group " role="group" aria-label="...">#}
-                                {#                                <div class="input-group" id="sort-find" style="display: none">#}
-                                {#                                    <select class="selectpicker" data-width="100px">#}
-                                {#                                        <option>Author</option>#}
-                                {#                                        <option>Time</option>#}
-                                {#                                        <option>Tag</option>#}
-                                {#                                    </select>#}
-                                {#                                    <div class="input-group">#}
-                                {#                                        <select class="selectpicker second-group-panel" data-live-search="true"#}
-                                {#                                                data-width="150px">#}
-                                {#                                            <option>Tent</option>#}
-                                {#                                            <option>Flashlight</option>#}
-                                {#                                            <option>Mustard</option>#}
-                                {#                                            <option>Ketchup</option>#}
-                                {#                                            <option>Relish</option>#}
-                                {#                                        </select>#}
-                                {#                                    </div>#}
-                                {#                                    <span class="input-group-btn">#}
-                                {#                                        <button type="button" class="btn btn-default" style="width:40px;">#}
-                                {#                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>#}
-                                {#                                        </button>#}
-                                {#                                    </span>#}
-                                {#                                </div>#}
-                                {##}
-                                {#                                <!-- Find by search input -->#}
-                                {#                                <div class="input-group" id="search-find">#}
-                                {#                                    <input type="text" class="form-control search-panel" placeholder="Search"#}
-                                {#                                           style="width:250px;">#}
-                                {#                                    <span class="input-group-btn">#}
-                                {#                                        <button type="submit" class="btn btn-default" style="width:40px;">#}
-                                {#                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>#}
-                                {#                                        </button>#}
-                                {#                                    </span>#}
-                                {#                                </div>#}
-                                {#                            </div>#}
-
-
-                                <!-- Find and Filter  -->
-                                <div class="btn-group " role="group" aria-label="...">
-                                    <div class="input-group" id="sort-find" style="">
-                                        {% render_field sort_form.sort|set_data:"width:100px" class+="selectpicker" %}
-                                    </div>
-                                    <div class="input-group" style="float:left;">
-                                        {% render_field sort_form.search class+="form-control search-panel" %}
-                                    </div>
-                                    <span class="input-group-btn" style="float:left;">
-                                        <button type="submit" class="btn btn-default" style="width:40px;">
+                <li class="navbar-btn btn-toolbar sort-and-search">
+                        <!-- Find and sort form -->
+                        <form method="get" >
+                            <div class="btn-group " role="group" aria-label="...">
+                                <div class="input-group sort-input">
+                                    {% render_field sort_form.sort|set_data:"width:70px" class+="selectpicker " %}
+                                </div>
+                                <div class="input-group search-input">
+                                    {% render_field sort_form.search class+="form-control search-panel " %}
+                                </div>
+                                <span class="input-group-btn" style="float:left;">
+                                        <button type="submit" class="btn btn-default">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                         </button>
                                     </span>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                {#                <div class="col-xs-1 col-md-1 navbar-btn navbar-right finders">#}
-                {#                    <!--here float right options button-->#}
-                {#                    <!-- change find type -->#}
-                {#                    <div class="btn-group" role="group">#}
-                {#                        <button type="button" onclick='searchFind()' class="btn btn-default" style="width:40px;">#}
-                {#                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>#}
-                {#                        </button>#}
-                {#                    </div>#}
-                {#                </div>#}
-
-            </div> <!-- /row -->
+                            </div>
+                        </form>
+                </li>
+            </ul>
         </div>
     </nav>
-
-
-    <style type="text/css">
-        body {
-        {#            min-height: 2000px;#} padding-top: 55px;
-        }
-
-        .finders {
-            padding: 0px;
-        }
-
-    </style>
-
-
 
     {% block feedcontent %}{% endblock %}
 

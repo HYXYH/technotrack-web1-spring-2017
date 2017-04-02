@@ -1,0 +1,38 @@
+
+body {
+    padding-top: 55px;
+}
+
+.menu {
+    padding-top: 5px;
+    padding-left: 15px;
+}
+
+.sort-and-search {
+    position: absolute !important;
+    width: 300px;
+    margin-right: -150px;
+    right: 50%;
+}
+
+.search-input {
+    width: 200px;
+}
+
+@media screen and (max-width: 767px) {
+    .mobilehide {
+        display: none;
+    }
+
+    .sort-and-search {
+        width: 250px;
+    }
+
+    .search-input {
+        width: 150px;
+    }
+
+    .menu {
+        padding-left: 0px;
+    }
+}

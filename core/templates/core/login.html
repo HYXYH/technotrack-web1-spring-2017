@@ -1,57 +1,83 @@
 {% extends "core/base.html" %}
 
+
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'core/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block extra_js %}
+    <script src="{% static 'core/particles.js' %}"></script>
+{% endblock %}
+
+
+
 {% block content %}
 
-   <!-- content -->
+    {% load widget_tweaks %}
 
-   <div class="container">
-      <!-- Main component for a primary marketing message or call to action -->
-      <!-- <div class="jumbotron"> -->
+    <!-- content -->
+    <div class="container">
 
-       {% if registered == True %}
-           <h2 class="text-center">Registration Complete!</h2>
-       {% else %}
-           <h2 class="text-center">Welcome to Photoblog</h2>
-       {% endif %}
-      <div id="particles"></div>
+        {% if registered == True %}
+            <h2 class="text-center">Registration Complete!</h2>
+        {% else %}
+            <h2 class="text-center">Welcome to Photoblog</h2>
+        {% endif %}
 
-      <div class="row">
-          <div id="loginbox" class="mainbox col-md-6  col-sm-6 col-sm-offset-3">
-              <div class="panel panel-default" >
-                  <div class="panel-heading">
-                    <div class="panel-title text-center">Sign in</div>
-                  </div>
+        <div id="particles"></div>
 
-                  <div class="panel-body" >
+        <div class="row">
+            <div id="loginbox" class="mainbox col-md-6  col-sm-6 col-sm-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title text-center">Sign in</div>
+                    </div>
 
-                      <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
-                          {% csrf_token %}
-                          {{ form.as_p }}
-{#                          <div class="input-group">#}
-{#                              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>#}
-{#                              <input id="user" type="text" class="form-control" name="user" value="" placeholder="User">#}
-{#                          </div>#}
-{##}
-{#                          <div class="input-group">#}
-{#                              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>#}
-{#                              <input id="password" type="password" class="form-control" name="password" placeholder="Password">#}
-{#                          </div>#}
-                          <div class="form-group">
-                              <!-- Buttons -->
-                              <div class="btn-toolbar col-sm-12 " role="toolbar" aria-label="...">
-                                  <div class=" btn-group controls" role="group">
-                                      <button type="submit" class="btn btn-success pull-right"><i class="glyphicon glyphicon-log-in"></i> Log in</button>
-                                  </div>
-                                  <div class=" controls" >
-                                      <button onclick="location.href='{% url "core:register" %}';" type="button" class="btn btn-primary pull-right"> Register</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>  
-      </div>
-   </div> <!-- /container -->
+                    <div class="panel-body">
+
+                        <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+
+                            <div class="{% if form.username.errors %}has-error{% endif %}">
+                                <div class="input-group ">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    {% render_field form.username|append_attr:"placeholder:User" class+="form-control" %}
+                                </div>
+                                <span class="help-block">{{ form.username.errors }}</span>
+                            </div>
+
+                            <div class="{% if form.password.errors %}has-error{% endif %}">
+                                <div class="input-group ">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    {% render_field form.password|append_attr:"placeholder:Password" class+="form-control" %}
+                                </div>
+                                <span class="help-block">{{ form.password.errors }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Buttons -->
+                                <div class="btn-toolbar col-sm-12 " role="toolbar" aria-label="...">
+                                    <div class=" btn-group controls" role="group">
+                                        <button type="submit" class="btn btn-success pull-right"><i
+                                                class="glyphicon glyphicon-log-in"></i> Log in
+                                        </button>
+                                    </div>
+                                    <div class=" controls">
+                                        <button onclick="location.href='{% url "core:register" %}';" type="button"
+                                                class="btn btn-primary pull-right"> Register
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
 
 {% endblock %}

@@ -3,20 +3,6 @@
 {% block feedcontent %}
     <!-- content -->
 
-    {% if user.is_authenticated %}
-        <!-- new blog/post -->
-        <div class="row">
-            <div class="col-md-2" style="position: fixed; margin-top: 10px; padding-right: 65px; padding-left: 20px">
-                <div class="center-block">
-                    <button onclick="location.href='{% url 'blogpost:addpost' %}';" type="submit"
-                            class="btn btn-success pull-right"><i
-                            class="glyphicon glyphicon-plus"></i> New post
-                    </button>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-
     <div class="container">
         <!-- posts here -->
 

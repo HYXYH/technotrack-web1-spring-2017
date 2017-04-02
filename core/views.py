@@ -15,6 +15,9 @@ class MyUserCreationForm(UserCreationForm):
 
 
 def register(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('blogpost:mainpage'))
+
     if request.method == 'POST':
         form = MyUserCreationForm(request.POST)
         if form.is_valid():
