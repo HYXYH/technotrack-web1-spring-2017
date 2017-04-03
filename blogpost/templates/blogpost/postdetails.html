@@ -1,5 +1,6 @@
 {% extends "blogpost/feedbase.html" %}
 
+{% load static %}
 
 {% block feedcontent %}
 
@@ -9,16 +10,22 @@
 
         <span class="chat-img ">
             {% if post.image %}
-                <img src="{{ post.image.url }}" style="width:100%; height:100%;"/>
+                <img src="{{ post.image.url }}" class="details-image"/>
             {% else %}
-                <img src="{{ default_post_image }}" style="width:100%; height:100%;"/>
+                {% static 'default_images/no_post_image.jpg' as  default_post_image %}
+                <img src="{{ default_post_image }}" class="details-image"/>
             {% endif %}
         </span>
 
         <!-- Comment block -->
         <div style="height:500px">
-             {% include "comments/comment_block.html" %}
+            {% include "comments/comment_block.html" %}
         </div>
     </div>
+
+    <script>
+        // hide search in editor
+        $('.sort-and-search').hide()
+    </script>
 
 {% endblock %}

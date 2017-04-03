@@ -41,3 +41,14 @@
 article {
     color: black;
 }
+
+
+.media-heading{
+    margin-left: 10px;
+}
+
+
+.horiz-centred{
+    display:flex;
+    align-items:center;
+}​

@@ -23,9 +23,21 @@
                 <li class="dropdown">
                     <!-- user block -->
                     {% if user.is_anonymous %}
-                        <a class="pull-left"
-                           href="{% url 'blogpost:mainpage' %}"> Photoblog</a>
-                        <a href="{% url 'core:login' %}" style="float:left">Log in</a>
+                        <a class="pull-left mobile-hide" href="{% url 'blogpost:mainpage' %}"> Photoblog</a>
+                        <a class="mobile-hide" href="{% url 'core:login' %}" style="float:left">Log in</a>
+                        <div id="brand" class="dropdown-toggle menu anon-menu mobile-show" data-toggle="dropdown" role="button"
+                             aria-haspopup="true" aria-expanded="false" hidden>
+                            Ph
+                            <span class="caret"></span>
+                        </div>
+                        <!-- anon menu block -->
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'blogpost:mainpage' %}"> Photoblog</a></li>
+                            <li><a href="{% url 'core:register' %}">Register</a></li>
+                            <li><a href="{% url 'core:login' %}">Log in</a></li>
+                        </ul>
+
+
                     {% else %}
                         <div id="brand" class="dropdown-toggle menu" data-toggle="dropdown" role="button"
                              aria-haspopup="true" aria-expanded="false">
@@ -36,38 +48,39 @@
                                  src="{{ default_avatar }}"
                                     {% endif %}
                             >
-                            <span class="mobilehide">{{ user.username }}</span>
-                            <span class="mobilehide caret"></span>
+                            <span class="mobile-hide">{{ user.username }}</span>
+                            <span class="mobile-hide caret"></span>
                         </div>
+
+                        <!-- user menu block -->
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url "blogpost:blogs" %}">Blogs</a></li>
+                            <li><a href="{% url "blogpost:addblog" %}">New blog</a></li>
+                            <li><a href="{% url "blogpost:addpost" %}">New post</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="{% url 'core:logout' %}">Log out</a></li>
+                        </ul>
                     {% endif %}
-                    <!-- /user block -->
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url "blogpost:blogs" %}">Blogs</a></li>
-                        <li><a href="{% url "blogpost:addblog" %}">New blog</a></li>
-                        <li><a href="{% url "blogpost:addpost" %}">New post</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="{% url 'core:logout' %}">Log out</a></li>
-                    </ul>
                 </li>
 
                 <li class="navbar-btn btn-toolbar sort-and-search">
-                        <!-- Find and sort form -->
-                        <form method="get" >
-                            <div class="btn-group " role="group" aria-label="...">
-                                <div class="input-group sort-input">
-                                    {% render_field sort_form.sort|set_data:"width:70px" class+="selectpicker " %}
-                                </div>
-                                <div class="input-group search-input">
-                                    {% render_field sort_form.search class+="form-control search-panel " %}
-                                </div>
-                                <span class="input-group-btn" style="float:left;">
+                    <!-- Find and sort form -->
+                    <form method="get">
+                        <div class="btn-group " role="group" aria-label="...">
+                            <div class="input-group sort-input">
+                                {% render_field sort_form.sort|set_data:"width:70px" class+="selectpicker " %}
+                            </div>
+                            <div class="input-group search-input">
+                                {% render_field sort_form.search class+="form-control search-panel " %}
+                            </div>
+                            <span class="input-group-btn" style="float:left;">
                                         <button type="submit" class="btn btn-default">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                         </button>
                                     </span>
-                            </div>
-                        </form>
+                        </div>
+                    </form>
                 </li>
             </ul>
         </div>

@@ -6,6 +6,7 @@ from comments.views import CommentForm
 from django.shortcuts import get_object_or_404, resolve_url
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Blog, Post
+from django.http import HttpResponseForbidden
 
 
 class AddPostView(CreateView):
@@ -25,6 +26,7 @@ class AddPostView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AddPostView, self).get_context_data(**kwargs)
+        # context['form'].fields['blog'].queryset = Blog.objects.filter(author=self.request.user)
         context['edit_mode_message'] = 'Create post'
         return context
 
@@ -34,6 +36,13 @@ class UpdatePostView(UpdateView):
     model = Post
     fields = ('title', 'image', 'description_title', 'text')
     blog_id = None
+
+    def dispatch(self, request, *args, **kwargs):
+        """ Making sure that only authors can update  """
+        obj = self.get_object()
+        if obj.author != self.request.user:
+             return HttpResponseForbidden()
+        return super(UpdatePostView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return resolve_url('blogpost:blogid', self.blog_id)
@@ -72,6 +81,13 @@ class UpdateBlogView(UpdateView):
     model = Blog
     fields = ('title', 'categories', 'image', 'text')
 
+    def dispatch(self, request, *args, **kwargs):
+        """ Making sure that only authors can update  """
+        obj = self.get_object()
+        if obj.author != self.request.user:
+             return HttpResponseForbidden()
+        return super(UpdateBlogView, self).dispatch(request, *args, **kwargs)
+
     def get_success_url(self):
         return resolve_url('blogpost:blogs')
 
@@ -97,8 +113,6 @@ class SortForm(forms.Form):
     search = forms.CharField(required=False)
 
 
-# edit post/blog only if author
-# default images -> to static
 # comments: show errors
 
 class BlogList(ListView):

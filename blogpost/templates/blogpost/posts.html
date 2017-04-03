@@ -30,15 +30,15 @@
         }
 
         // for mobiles set small nav size
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            // some code..
-            $('.second-group-panel').attr("data-width", "125px")
-            $('.search-panel').width(199);
-            $('.post-title').css("max-width", "180px");
-            $('#brand').html("Pb ");
-            $('#comments-panel-1').toggle();
-            // alert("mobile");
-        }
+{#        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {#}
+{#            // some code..#}
+{#            $('.second-group-panel').attr("data-width", "125px")#}
+{#            $('.search-panel').width(199);#}
+{#            $('.post-title').css("max-width", "180px");#}
+{#            $('#brand').html("Pb ");#}
+{#            $('#comments-panel-1').toggle();#}
+{#            // alert("mobile");#}
+{#        }#}
 
         function resizeChatToPost(chatid) {
             $('#comments-panel-' + chatid.toString(10)).height($('#post-' + chatid.toString(10)).height());

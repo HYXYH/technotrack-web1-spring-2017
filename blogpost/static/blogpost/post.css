@@ -32,3 +32,8 @@
 .post-block {
 	margin-bottom: 100px;
 }
+
+.details-image {
+    width: 100%;
+    height: 100%;
+}

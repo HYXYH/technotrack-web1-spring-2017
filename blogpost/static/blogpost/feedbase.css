@@ -8,6 +8,10 @@ body {
     padding-left: 15px;
 }
 
+.anon-menu {
+    margin-top: 10px;
+}
+
 .sort-and-search {
     position: absolute !important;
     width: 300px;
@@ -20,8 +24,14 @@ body {
 }
 
 @media screen and (max-width: 767px) {
-    .mobilehide {
-        display: none;
+    .mobile-hide {
+        display: none !important;
+        visibility: hidden;
+    }
+
+    .mobile-show {
+        display: block !important;
+        visibility: visible;
     }
 
     .sort-and-search {
