@@ -4,14 +4,14 @@
     <div class="col-md-1">
     </div>
     <div class=" col-md-10">
-        <div class="panel panel-default blogpost"
+        <div class="panel panel-default blogpost" id="blog-{{ blog.id }}"
                 {% if blog.image %}
              style="background: url('{{ blog.image.url }}') no-repeat; background-size: 100% 100%;">
-                    {#                  data-image="{{ blog.image.url }}">   это не работает, url(attr(..)) - не поддерживается#}
+{#                                      data-image="{{ blog.image.url }}">  {#  это не работает, url(attr(..)) - не поддерживается #}
                 {% else %}
                     {% static 'default_images/no_post_image.jpg' as  default_post_image %}
                     style="background: url('{{ default_post_image }}') no-repeat; background-size: 100% 100%;">
-                    {#                   data-image="{% static 'blogpost/default_images/no_post_image.jpg' %}">#}
+{#                                       data-image="{% static 'default_images/no_post_image.jpg' %}">#}
                 {% endif %}
         <div class="panel-body blogpost-footer">
             <div class="col-md-6">
@@ -40,9 +40,13 @@
                     <a href="{% url 'blogpost:blogid' blog_id=blog.id %}">{{ blog.title }}</a>
                     <!-- Edit blog -->
                     {% if blog.author == user %}
-                        <button type="button" onclick="location.href='{% url 'blogpost:editblog' pk=blog.id %}';"
-                                class="btn btn-succes" title="Edit blog"><i
-                                class="glyphicon glyphicon-pencil"></i>
+                        <button type="button"
+                                class="btn btn-succes load-editor"
+                                title="Edit blog"
+                                data-id="{{ blog.id }}"
+                                data-url="{% url 'blogpost:editblog' pk=blog.id %}"
+                                data-toggle="modal" data-target="#modal-editor">
+                            <i class="glyphicon glyphicon-pencil"></i>
                         </button>
                     {% endif %}
                 </h4>

@@ -37,7 +37,12 @@
                         class="glyphicon glyphicon-comment"></span></a>
                 <!-- Edit post, if autor -->
                 {% if post.author == user %}
-                <a href="{% url 'blogpost:editpost' pk=post.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="#edit"
+                       class="load-editor"
+                       data-url="{% url 'blogpost:editpost' pk=post.id %}"
+                       data-id="{{ post.id }}"
+                       data-toggle="modal"
+                       data-target="#modal-editor"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
                 <!-- /Edit blog -->
                 <a href="{% url "blogpost:postid" post.id %}"><span class="glyphicon glyphicon-new-window"></span></a>
