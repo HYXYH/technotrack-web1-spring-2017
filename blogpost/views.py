@@ -4,9 +4,9 @@ from django import forms
 
 from comments.views import CommentForm
 from django.shortcuts import get_object_or_404, resolve_url
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Blog, Post
-from django.http import HttpResponseForbidden
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
+from .models import Blog, Post, Like
+from django.http import HttpResponse, JsonResponse
 
 
 class AddPostView(CreateView):
@@ -37,14 +37,11 @@ class UpdatePostView(UpdateView):
     fields = ('title', 'image', 'description_title', 'text')
     blog_id = None
 
-    def dispatch(self, request, *args, **kwargs):
-        """ Making sure that only authors can update  """
-        obj = self.get_object()
-        if obj.author != self.request.user:
-             return HttpResponseForbidden()
-        return super(UpdatePostView, self).dispatch(request, *args, **kwargs)
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)
 
     def get_success_url(self):
+
         return resolve_url('blogpost:blogid', self.blog_id)
 
     def form_valid(self, form):
@@ -81,19 +78,14 @@ class UpdateBlogView(UpdateView):
     model = Blog
     fields = ('title', 'categories', 'image', 'text')
 
-    def dispatch(self, request, *args, **kwargs):
-        """ Making sure that only authors can update  """
-        obj = self.get_object()
-        if obj.author != self.request.user:
-             return HttpResponseForbidden()
-        return super(UpdateBlogView, self).dispatch(request, *args, **kwargs)
+    def get_queryset(self):
+        return Blog.objects.filter(author=self.request.user)
 
     def get_success_url(self):
         return resolve_url('blogpost:blogs')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        print super(UpdateBlogView, self).form_valid(form)
         return super(UpdateBlogView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -170,3 +162,46 @@ class PostView(DetailView):
         context['comment_form'] = CommentForm()
         return context
     # в object будет лежать Post.get(id=context['pk'])
+
+
+class RatesView(View):
+
+    def get(self, request):
+        ids = request.GET.get('ids', '')
+        ids = ids.split(',')
+        rates = dict(Post.objects.filter(id__in=ids).values_list('id','rate'))
+        return JsonResponse(rates)
+
+
+class UpdateRateView(View):
+
+    likedpost = None
+    likes = None
+    score = None
+
+    def dispatch(self, request, pk=None, rate=None, *args, **kwargs):
+        self.likedpost = get_object_or_404(Post.objects.all(), id=pk)
+        self.likes = Like.objects.filter(author=request.user, post=self.likedpost)
+        if rate == 'up':
+            self.score = 1
+        if rate == 'down':
+            self.score = -1
+        return super(UpdateRateView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        if len(self.likes) == 0:
+            like = Like(author=request.user, post=self.likedpost, score=self.score)
+            like.save()
+            self.likedpost.rate += self.score
+            self.likedpost.save()
+        else:
+            like = self.likes.first()
+            like.score += self.score
+            if like.score > 1 or like.score < -1:
+                return HttpResponse("Cheating is bad")
+            else:
+                like.save()
+                self.likedpost.rate += self.score
+                self.likedpost.save()
+
+        return HttpResponse(self.likedpost.rate)

@@ -37,3 +37,12 @@
     width: 100%;
     height: 100%;
 }
+
+.panel-heading a {
+	text-decoration: none;
+}
+
+.comments-block{
+	height: 500px;
+	/*height:100px;*/
+}

@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from .views import add_comment
+from .views import PostCommentsView
 
 urlpatterns = [
-    url(r'^newcomment/$', login_required(add_comment), name="newcomment"),
+    url(r'^post/id(?P<pk>\d+)/comments$', login_required(PostCommentsView.as_view()), name="comments"),
+
 ]

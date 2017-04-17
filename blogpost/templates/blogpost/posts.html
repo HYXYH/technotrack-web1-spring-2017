@@ -1,5 +1,14 @@
 {% extends "blogpost/feedbase.html" %}
 
+{%  load static %}
+
+{% block extra_js %}
+        {{ block.super }}
+    <script src="{% static 'blogpost/editor.js' %}"></script>
+     <script src="{% static 'blogpost/postitem.js' %}"></script>
+{% endblock %}
+
+
 {% block feedcontent %}
     <!-- content -->
 
@@ -7,42 +16,15 @@
         <!-- posts here -->
 
         {% for object in object_list %}
-            {% include "blogpost/postlist.html" with post=object %}
+            {% include "blogpost/postitem.html" with post=object %}
         {% empty %}
             <h1 align="center">Sorry, no posts</h1>
         {% endfor %}
 
+        <!-- Modal -->
+        <div id="modal-editor" class="modal  fade">
+            <div id="editor-content" class="modal-dialog modal-lg"></div>
+        </div>
+
     </div> <!-- /container -->
-
-    <script type="text/javascript">
-        function searchFind() {
-            $('#search-find').toggle();
-            $('#sort-find').toggle();
-        }
-
-        function toggleChat(chatid) {
-            resizeChatToPost(chatid);
-            $('#comments-panel-' + chatid.toString(10)).toggle();
-        }
-
-        function addComment() {
-            $('.chat').append("<li class=\"right clearfix\"><span class=\"chat-img pull-right\"><img src=\"http://placehold.it/50/FA6F57/fff&text=ME\" alt=\"User Avatar\" class=\"img-circle\" /></span><div class=\"chat-body clearfix\"><div class=\"header\"><small class=\" text-muted\"><span class=\"glyphicon glyphicon-time\"></span>15 mins ago</small><strong class=\"pull-right primary-font\">Bhaumik Patel</strong></div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.</p></div></li>");
-        }
-
-        // for mobiles set small nav size
-{#        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {#}
-{#            // some code..#}
-{#            $('.second-group-panel').attr("data-width", "125px")#}
-{#            $('.search-panel').width(199);#}
-{#            $('.post-title').css("max-width", "180px");#}
-{#            $('#brand').html("Pb ");#}
-{#            $('#comments-panel-1').toggle();#}
-{#            // alert("mobile");#}
-{#        }#}
-
-        function resizeChatToPost(chatid) {
-            $('#comments-panel-' + chatid.toString(10)).height($('#post-' + chatid.toString(10)).height());
-        }
-
-    </script>
 {% endblock %}

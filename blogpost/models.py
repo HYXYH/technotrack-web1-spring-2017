@@ -50,6 +50,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     description_title = models.CharField(max_length=100, null=True, blank=True)
     text = models.TextField(null=True, blank=True)
+    rate = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -63,5 +64,5 @@ class Post(models.Model):
 class Like(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='liked')
     post = models.ForeignKey(Post, related_name='likers')
+    score = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    # int: +-1

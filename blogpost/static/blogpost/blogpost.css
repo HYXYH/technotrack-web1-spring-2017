@@ -8,7 +8,7 @@
     flex-direction: column;
     display: flex;
 
-   /* background: url( attr(data-image) ) no-repeat;  /* НЕ РАБОТАЕТ */
+    /*background-image: url( data-image url) no-repeat;  !* НЕ РАБОТАЕТ *!*/
     background-size: 100% 100%;
 }
 

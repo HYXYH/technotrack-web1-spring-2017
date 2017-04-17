@@ -1,88 +1,71 @@
-{% extends "blogpost/feedbase.html" %}
+{% load widget_tweaks %}
+<div class="modal-content">
 
-{% block feedcontent %}
+    <div class="modal-header">
+        <h1>{{ edit_mode_message }}</h1>
+    </div>
 
-    {% load widget_tweaks %}
-
-    <div class="container">
-        <div class="row">
-
-            <div class="col-md-8 col-md-offset-2">
-
-                <h1>{{ edit_mode_message }}</h1>
-
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    {% if form.categories %}
-                        <div class="form-group {% if form.categories.errors %}has-error{% endif %}">
-                            <label for="title">Categories <span class="require">*</span></label>
-                            {% render_field form.categories|set_data:"selected-text-format:count > 3" class+="selectpicker" %}
-                            <span class="help-block">{{ form.categories.errors }}</span>
-                        </div>
-                    {% endif %}
+    <form class="ajaxform" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+            {% if form.categories %}
+                <div class="form-group {% if form.categories.errors %}has-error{% endif %}">
+                    <label for="title">Categories <span class="require">*</span></label>
+                    {% render_field form.categories|set_data:"selected-text-format:count > 3"|set_data:"live-search:true" class+="selectpicker" %}
+                    <span class="help-block">{{ form.categories.errors }}</span>
+                </div>
+            {% endif %}
 
 
-                    {% if form.blog %}
-                        <div class="form-group {% if form.blog.errors %}has-error{% endif %}">
-                            <label for="title">Blog <span class="require">*</span></label>
-                            {% render_field form.blog class+="selectpicker" %}
-                            <span class="help-block">{{ form.blog.errors }}</span>
-                        </div>
-                    {% endif %}
+            {% if form.blog %}
+                <div class="form-group {% if form.blog.errors %}has-error{% endif %}">
+                    <label for="title">Blog <span class="require">*</span></label>
+                    {% render_field form.blog class+="selectpicker" %}
+                    <span class="help-block">{{ form.blog.errors }}</span>
+                </div>
+            {% endif %}
 
-                    {% if form.title %}
-                        <div class="form-group {% if form.title.errors %}has-error{% endif %}">
-                            <label for="title">Title <span class="require">*</span></label>
-                            {% render_field form.title class+="form-control" %}
-                            <span class="help-block">{{ form.title.errors }}</span>
-                        </div>
-                    {% endif %}
+            {% if form.title %}
+                <div class="form-group {% if form.title.errors %}has-error{% endif %}">
+                    <label for="title">Title <span class="require">*</span></label>
+                    {% render_field form.title class+="form-control" %}
+                    <span class="help-block">{{ form.title.errors }}</span>
+                </div>
+            {% endif %}
 
-                    <div class="form-group {% if form.image.errors %}has-error{% endif %}">
-                        <label for="title">Image </label>
-                        {% render_field form.image class+="" %}
-                        <span class="help-block">{{ form.image.errors }}</span>
-                    </div>
+            <div class="form-group {% if form.image.errors %}has-error{% endif %}">
+                <label for="title">Image </label>
+                {% render_field form.image class+="" %}
+                <span class="help-block">{{ form.image.errors }}</span>
+            </div>
 
-                    {% if form.description_title %}
-                        <div class="form-group {% if form.description_title.errors %}has-error{% endif %}">
-                            <label for="title">Description Title</label>
-                            {% render_field form.description_title class+="form-control" %}
-                            <span class="help-block">{{ form.description_title.errors }}</span>
-                        </div>
-                    {% endif %}
+            {% if form.description_title %}
+                <div class="form-group {% if form.description_title.errors %}has-error{% endif %}">
+                    <label for="title">Description Title</label>
+                    {% render_field form.description_title class+="form-control" %}
+                    <span class="help-block">{{ form.description_title.errors }}</span>
+                </div>
+            {% endif %}
 
-                    <div class="form-group {% if form.text.errors %}has-error{% endif %}">
-                        <label for="description">Description</label>
-                        {% render_field form.text|append_attr:"rows:5" class+="form-control" %}
-                        <span class="help-block">{{ form.text.errors }}</span>
-                    </div>
+            <div class="form-group {% if form.text.errors %}has-error{% endif %}">
+                <label for="description">Description</label>
+                {% render_field form.text|attr:"rows:5" class+="form-control" %}
+                <span class="help-block">{{ form.text.errors }}</span>
+            </div>
 
-                    <div class="form-group ">
-                        <p><span class="require">*</span> - required fields</p>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
-                            Submit
-                        </button>
-                        {#                        <button class="btn btn-default">#}
-                        {#                            Cancel#}
-                        {#                        </button>#}
-                    </div>
-
-                </form>
+            <div class="form-group ">
+                <p><span class="require">*</span> - required fields</p>
             </div>
 
         </div>
-    </div>
+        <div class="modal-footer">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+                <button id="close-editor" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
 
-
-
-    <script>
-            // hide search in editor
-            $('.sort-and-search').hide()
-    </script>
-
-{% endblock %}
+    </form>
+</div>

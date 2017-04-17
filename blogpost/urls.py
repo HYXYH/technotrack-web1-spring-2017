@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from .views import BlogList, PostList, PostView, AddBlogView, AddPostView, UpdateBlogView, UpdatePostView
+from .views import BlogList, PostList, PostView, AddBlogView, AddPostView, UpdateBlogView, UpdatePostView, RatesView, UpdateRateView
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -27,6 +28,8 @@ urlpatterns = [
     url(r'^posts/create/$', login_required(AddPostView.as_view()), name="addpost"),
     url(r'^blogs/id(?P<pk>\d+)/edit/$', login_required(UpdateBlogView.as_view()), name="editblog"),
     url(r'^posts/id(?P<pk>\d+)/edit/$', login_required(UpdatePostView.as_view()), name="editpost"),
+    url(r'^posts/id(?P<pk>\d+)/(?P<rate>\w+)/$', login_required(UpdateRateView.as_view()), name="ratepost"),
+    url(r'^rates/$', login_required(RatesView.as_view()), name="checkpostrate"),
 ]
 
 

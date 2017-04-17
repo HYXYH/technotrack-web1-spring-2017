@@ -4,8 +4,12 @@
 {% load widget_tweaks %}
 {% load static %}
 
+{% block extra_js %}
+    {{ block.super }}
+{% endblock %}
 
 {% block extra_css %}
+    {{ block.super }}
     <link href="{% static 'blogpost/feedbase.css' %}" rel="stylesheet">
     <link href="{% static 'blogpost/post.css' %}" rel="stylesheet">
     <link href="{% static 'blogpost/blogpost.css' %}" rel="stylesheet">
@@ -55,8 +59,16 @@
                         <!-- user menu block -->
                         <ul class="dropdown-menu">
                             <li><a href="{% url "blogpost:blogs" %}">Blogs</a></li>
-                            <li><a href="{% url "blogpost:addblog" %}">New blog</a></li>
-                            <li><a href="{% url "blogpost:addpost" %}">New post</a></li>
+                            <li><a href="#newblog" class="load-editor"
+                                   data-url="{% url "blogpost:addblog" %}"
+                                   data-toggle="modal"
+                                   data-target="#modal-editor">New blog</a>
+                            </li>
+                            <li><a href="#newblog" class="load-editor"
+                                   data-url="{% url "blogpost:addpost" %}"
+                                   data-toggle="modal"
+                                   data-target="#modal-editor">New post</a>
+                            </li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Profile</a></li>
                             <li><a href="{% url 'core:logout' %}">Log out</a></li>

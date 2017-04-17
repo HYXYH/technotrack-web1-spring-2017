@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+        <meta name="csrf" content="{{ csrf_token }}">
 
 
         <title>Photoblog</title>
@@ -26,7 +26,11 @@
         <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
         <script src="{% static 'bootstrap/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
 
+        <!-- extra css -->
+        <script src="{% static 'core/base.js' %}"></script>
         {% block extra_css %} {% endblock %}
+
+        <!-- extra js -->
         {% block extra_js %} {% endblock %}
 
     </head>
