@@ -14,7 +14,7 @@
                       <a href="" onclick="rate({{ post.id }}, '{% url "blogpost:ratepost" post.id 'up' %}');">
                           <span class="glyphicon glyphicon-chevron-up"></span>
                       </a>
-                        <span class="rate-slot" data-id="{{ post.id }}" id="rate-{{ post.id }}">{{ post.rate }}</span>
+                        <span class="rate-slot" data-id="{{ post.id }}" id="rate-{{ post.id }}" data-url="{% url "blogpost:checkpostrate" %}">{{ post.rate }}</span>
                       <a href="" onclick="rate({{ post.id }}, '{% url "blogpost:ratepost" post.id 'down' %}');">
                           <span class="glyphicon glyphicon-chevron-down"></span></a>
                     </span>
@@ -43,7 +43,7 @@
                     <a href=""
                        class="load-editor"
                        data-url="{% url 'blogpost:editpost' pk=post.id %}"
-                       data-id="{{ post.id }}"
+{#                       data-id="post-{{ post.id }}"#}
                        data-toggle="modal"
                        data-target="#modal-editor"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
@@ -55,7 +55,7 @@
 
 
     <!-- Comment block -->
-    <div id="comments-block-{{ post.id }}" class="col-md-4 comment-block">
+    <div id="comments-block-{{ post.id }}" class="col-md-4 width-auto comment-block" >
         {% include "comments/comment_block.html" %}
     </div>
 

@@ -43,7 +43,7 @@
                         <button type="button"
                                 class="btn btn-succes load-editor"
                                 title="Edit blog"
-                                data-id="{{ blog.id }}"
+                                data-id="blog-{{ blog.id }}"
                                 data-url="{% url 'blogpost:editblog' pk=blog.id %}"
                                 data-toggle="modal" data-target="#modal-editor">
                             <i class="glyphicon glyphicon-pencil"></i>

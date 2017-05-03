@@ -5,7 +5,7 @@
         <h1>{{ edit_mode_message }}</h1>
     </div>
 
-    <form class="ajaxform" method="post" enctype="multipart/form-data">
+    <form class="ajaxform" data-url="{{ data_url }}" data-id="{{ data_id }}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal-body">
             {% if form.categories %}

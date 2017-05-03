@@ -61,11 +61,14 @@ $(document).ready(function () {
     function updateRating() {
         var ids = [];
 
+
         $(".rate-slot").each(function () {
             ids.push($(this).data('id'));
         });
 
-        $.getJSON('/rates/', {ids: ids.join(',')}, function (data) {
+        var url = $(".rate-slot")[0].data('url');
+
+        $.getJSON(url, {ids: ids.join(',')}, function (data) {
                 for (var i in data) {
                     $('.rate-slot[data-id=' + i + ']').html(data[i]);
                 }
@@ -88,44 +91,37 @@ $(document).ready(function () {
     $(window).scroll(function () {
         $('.post-block').each(function (index, block) {
             // if (block.position.y )
-            var ph = $('#' + block.id).height();
-            var postUp = $("#" + block.id).offset().top;
+            var numberPattern = /\d+/g;
+
+            var postBlock = $("#post-block-" + block.id.match(numberPattern)[0]);
+            var commentsBlock = $("#comments-block-" + block.id.match(numberPattern)[0]);
+
+            var ph = postBlock.height();
+            var postUp = postBlock.offset().top;
             var pos = $(window).scrollTop() + 55;
             var postDown = ph - ($(window).height() - 55) + postUp + 10;
 
-            var numberPattern = /\d+/g;
-            $("#test-" + block.id.match(numberPattern)[0]).html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>" + postUp + " <br><br>" + pos + "<br><br>" + " " + postDown);
 
+            var status;
+            status = 'no scroll';
             if (postDown > 0) {
                 if ((pos > postUp) && (pos < postDown )) {
-                  $("#comment-block-" + block.id.match(numberPattern)[0]).css("position","fixed");
-                  // alert("fixed");
+                    var x = postBlock.offset().left + postBlock.width() + 17;
+                    commentsBlock.css("position", "fixed").width('auto').offset({top: pos, left: x});
+                    status = 'catch! '
                 }
-                else {
-                    $("#comment-block-" + block.id.match(numberPattern)[0]).css("position","relative");
-                    // alert("rel");
+                else if (pos <= postUp) {
+                    commentsBlock.css("position", "relative").css('top', 'auto').css('left', 'auto');
+                    status = 'upper';
+                } else if (pos >= postDown) {
+                    var d = ph - commentsBlock.height();
+                    commentsBlock.css("position", "relative").css('top', d).css('left', 'auto');
+                    status = 'lower';
                 }
             }
+            // $("#test-" + block.id.match(numberPattern)[0]).html("<br><br>" + postUp
+            // + " <br><br>" + status + " " + pos + "<br><br>" + " " + postDown);
         });
-
-// // distance from top of footer to top of document
-//         footertotop = ($('#footer').position().top);
-// // distance user has scrolled from top, adjusted to take in height of sidebar (570 pixels inc. padding)
-//         scrolltop = $(document).scrollTop() + 570;
-// // difference between the two
-//         difference = scrolltop - footertotop;
-//
-// // if user has scrolled further than footer,
-// // pull sidebar up using a negative margin
-//
-//         if (scrolltop > footertotop) {
-//
-//             $('#cart').css('margin-top', 0 - difference);
-//         }
-//
-//         else {
-//             $('#cart').css('margin-top', 0);
-//         }
     });
 
 });

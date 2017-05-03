@@ -28,6 +28,8 @@ class AddPostView(CreateView):
         context = super(AddPostView, self).get_context_data(**kwargs)
         # context['form'].fields['blog'].queryset = Blog.objects.filter(author=self.request.user)
         context['edit_mode_message'] = 'Create post'
+        context['data_id'] = 'post-block-{}'
+        context['data_url'] = resolve_url('blogpost:addpost')
         return context
 
 
@@ -52,6 +54,8 @@ class UpdatePostView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdatePostView, self).get_context_data(**kwargs)
         context['edit_mode_message'] = 'Edit post'
+        context['data_id'] = 'post-block-{}'.format(self.object.id)
+        context['data_url'] = resolve_url('blogpost:editpost', self.object.id)
         return context
 
 
@@ -70,6 +74,8 @@ class AddBlogView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(AddBlogView, self).get_context_data(**kwargs)
         context['edit_mode_message'] = 'Create blog'
+        context['data_id'] = 'blog-{}'
+        context['data_url'] = resolve_url('blogpost:addblog')
         return context
 
 
@@ -91,6 +97,8 @@ class UpdateBlogView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateBlogView, self).get_context_data(**kwargs)
         context['edit_mode_message'] = 'Edit blog'
+        context['data_id'] = 'blog-{}'.format(self.object.id)
+        context['data_url'] = resolve_url('blogpost:editblog', self.object.id)
         return context
 
 
