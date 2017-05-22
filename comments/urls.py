@@ -14,10 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib.auth.decorators import login_required
 from .views import PostCommentsView
 
 urlpatterns = [
-    url(r'^post/id(?P<pk>\d+)/comments$', login_required(PostCommentsView.as_view()), name="comments"),
+    url(r'^post/id(?P<pk>\d+)/comments$', PostCommentsView.as_view(), name="comments"),
 
 ]

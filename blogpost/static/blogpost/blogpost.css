@@ -38,17 +38,22 @@
     margin-bottom: 100px;
 }
 
+.post-counter {
+    margin-top: 8px;
+    margin-bottom: -10px;
+}
+
 article {
     color: black;
 }
 
-
-.media-heading{
+.media-heading {
     margin-left: 10px;
 }
 
+.horiz-centred {
+    display: flex;
+    align-items: center;
+}
 
-.horiz-centred{
-    display:flex;
-    align-items:center;
-}​
+​

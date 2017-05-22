@@ -13,12 +13,12 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 from configparser import RawConfigParser
 
-config = RawConfigParser()
-config.read('/Users/Oskar/Desktop/Phystech/Technotrack/WEB/Project/conf/django.conf')
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+config = RawConfigParser()
+conf_dir = BASE_DIR + '/../conf/django.conf'
+config.read(conf_dir)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -29,8 +29,16 @@ SECRET_KEY = config.get('global', 'SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+INTERNAL_IPS = ['127.0.0.1']
+
 ALLOWED_HOSTS = ['*']
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
 # Application definition
 
@@ -45,6 +53,7 @@ INSTALLED_APPS = [
     'comments.apps.CommentsConfig',
     'blogpost.apps.BlogpostConfig',
     'widget_tweaks',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTH_USER_MODEL = 'core.User'
@@ -79,20 +89,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'application.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': config.get('database','ENGINE'),
-        'NAME': config.get('database','NAME'),
-        'USER': config.get('database','USER'),
-        'PASSWORD': config.get('database','PASSWORD'),
-        'HOST': config.get('database','HOST'),
+        'ENGINE': config.get('database', 'ENGINE'),
+        'NAME': config.get('database', 'NAME'),
+        'USER': config.get('database', 'USER'),
+        'PASSWORD': config.get('database', 'PASSWORD'),
+        'HOST': config.get('database', 'HOST'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -126,7 +134,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -139,7 +146,6 @@ STATIC_ROOT = config.get('global', 'STATIC_ROOT')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = config.get('global', 'MEDIA_ROOT')
-
 
 # Logging
 # https://docs.djangoproject.com/en/1.11/topics/logging/
@@ -168,15 +174,15 @@ LOGGING = {
             'formatter': 'simple'
         },
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/Users/Oskar/Desktop/Phystech/Technotrack/WEB/Project/logs/django.log',
+            'filename': config.get('global', 'LOG_FILE'),
             'formatter': 'verbose'
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'propagate': True,
         },
         'django.request': {

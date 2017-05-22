@@ -1,5 +1,8 @@
 <!-- BlogPost -->
 {% load static %}
+{% load cache %}
+
+{% cache 15 "blog" blog.id %}
 <div class="row blogpost-block">
     <div class="col-md-1">
     </div>
@@ -34,12 +37,18 @@
                         <span class="label {{ cat.color }}">{{ cat.name }}</span>
                     {% endfor %}
                 </div>
+                <p class="post-counter">Постов в блоге: {{ blog.post_count }}</p>
+                <p class="post-counter">Комментариев: {{ blog.comment_count }}</p>
+                <p class="post-counter">Рейтинг: {{ blog.rate }}</p>
+
             </div>
             <article>
                 <h4>
                     <a href="{% url 'blogpost:blogid' blog_id=blog.id %}">{{ blog.title }}</a>
+
+{% endcache %}
                     <!-- Edit blog -->
-                    {% if blog.author == user %}
+                    {% if blog.author_id == user.id %}
                         <button type="button"
                                 class="btn btn-succes load-editor"
                                 title="Edit blog"
@@ -50,7 +59,7 @@
                         </button>
                     {% endif %}
                 </h4>
-                <p>{{ blog.text|truncatechars:75 }}</p>
+                <p>{{ blog.text|truncatechars:150 }}</p>
             </article>
 
         </div>

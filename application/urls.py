@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
 import core.urls
 import blogpost.urls
 import comments.urls
@@ -26,3 +27,9 @@ urlpatterns = [
     url(r'', include(blogpost.urls, namespace="blogpost")),
     url(r'', include(comments.urls, namespace="comments")),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

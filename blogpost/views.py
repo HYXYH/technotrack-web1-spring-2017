@@ -7,12 +7,13 @@ from django.shortcuts import get_object_or_404, resolve_url
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 from .models import Blog, Post, Like
 from django.http import HttpResponse, JsonResponse
+from django.db import models
 
 
 class AddPostView(CreateView):
     template_name = "blogpost/edit.html"
     model = Post
-    fields = ('blog', 'title', 'image', 'description_title', 'text')
+    fields = ('blog', 'title', 'image', 'description_title', 'text', 'is_draft')
     blog_id = None
 
     def get_success_url(self):
@@ -36,7 +37,7 @@ class AddPostView(CreateView):
 class UpdatePostView(UpdateView):
     template_name = "blogpost/edit.html"
     model = Post
-    fields = ('title', 'image', 'description_title', 'text')
+    fields = ('title', 'image', 'description_title', 'text', 'is_draft')
     blog_id = None
 
     def get_queryset(self):
@@ -105,10 +106,12 @@ class UpdateBlogView(UpdateView):
 class SortForm(forms.Form):
 
     sort = forms.ChoiceField(choices=(
-        ('title', 'Title'),
-        ('author', 'Author'),
-        ('created_at', 'Time'),
-        ('text', 'Description')
+        ('title', 'Заголовок'),
+        ('author', 'Автор'),
+        ('-created_at', 'Время'),
+        ('text', 'Описание'),
+        ('-rate', 'Рейтинг'),
+        ('-comment_count', 'Обсуждаемые')
     ))
     search = forms.CharField(required=False)
 
@@ -116,7 +119,6 @@ class SortForm(forms.Form):
 # comments: show errors
 
 class BlogList(ListView):
-    queryset = Blog.objects.all()
     template_name = "blogpost/blogs.html"
     sort_form = None
 
@@ -130,8 +132,11 @@ class BlogList(ListView):
         return context
 
     def get_queryset(self):
-        qs = super(BlogList, self).get_queryset()
+        qs = Blog.objects.all()
+        qs = qs.annotate_everything()
+
         if self.sort_form.is_valid():
+            #fixme: не срабатывает, хотя выполняется
             qs = qs.order_by(self.sort_form.cleaned_data['sort'])
             if self.sort_form.cleaned_data['search']:
                 qs = qs.filter(title__icontains=self.sort_form.cleaned_data['search'])
@@ -147,7 +152,12 @@ class PostList(ListView):
         return super(PostList, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Post.objects.filter(blog=self.blog)
+        qs = Post.objects.filter(blog=self.blog)
+        # fixme: не работает при анонимном юзере
+        qs = qs.posts_for_user(self.request.user)
+        qs = qs.annotate_everything()
+        qs = qs.get_likes()
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(PostList, self).get_context_data(**kwargs)
@@ -164,11 +174,13 @@ class PostView(DetailView):
     model = Post
     context_object_name = 'post'
     template_name = "blogpost/postdetails.html"
+    queryset = Post.objects.annotate_everything()
 
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data(**kwargs)
         context['comment_form'] = CommentForm()
         return context
+
     # в object будет лежать Post.get(id=context['pk'])
 
 
@@ -177,7 +189,7 @@ class RatesView(View):
     def get(self, request):
         ids = request.GET.get('ids', '')
         ids = ids.split(',')
-        rates = dict(Post.objects.filter(id__in=ids).values_list('id','rate'))
+        rates = dict(Post.objects.filter(id__in=ids).values_list('id', 'rate'))
         return JsonResponse(rates)
 
 

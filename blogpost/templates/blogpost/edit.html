@@ -8,6 +8,16 @@
     <form class="ajaxform" data-url="{{ data_url }}" data-id="{{ data_id }}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal-body">
+
+            {% if form.is_draft %}
+                <div class="form-group {% if form.is_draft.errors %}has-error{% endif %}">
+                    <label for="draft">draft <span class="require">*</span></label>
+                    {% render_field form.is_draft|attr:"checked" %} - uncheck for publishing
+                    <span class="help-block">{{ form.is_draft.errors }}</span>
+                </div>
+            {% endif %}
+
+
             {% if form.categories %}
                 <div class="form-group {% if form.categories.errors %}has-error{% endif %}">
                     <label for="title">Categories <span class="require">*</span></label>

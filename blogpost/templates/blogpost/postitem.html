@@ -39,7 +39,7 @@
 {#                <a href="javascript:void(0)" onclick='toggleChat({{ post.id }})'><span#}
 {#                        class="glyphicon glyphicon-comment"></span></a>#}
                 <!-- Edit post, if autor -->
-                {% if post.author == user %}
+                {% if post.author_id == user.id %}
                     <a href=""
                        class="load-editor"
                        data-url="{% url 'blogpost:editpost' pk=post.id %}"
@@ -55,7 +55,7 @@
 
 
     <!-- Comment block -->
-    <div id="comments-block-{{ post.id }}" class="col-md-4 width-auto comment-block" >
+    <div id="comments-block-{{ post.id }}" class="col-md-4 width-auto comment-block mobile-hide" >
         {% include "comments/comment_block.html" %}
     </div>
 
